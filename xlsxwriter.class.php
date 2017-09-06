@@ -725,23 +725,8 @@ class XLSXWriter
 		else if ($num_format=='price')    $num_format='#,##0.00';
 		else if ($num_format=='dollar')   $num_format='[$$-1009]#,##0.00;[RED]-[$$-1009]#,##0.00';
 		else if ($num_format=='euro')     $num_format='#,##0.00 [$€-407];[RED]-#,##0.00 [$€-407]';
-		$ignore_until='';
-		$escaped = '';
-		for($i=0,$ix=strlen($num_format); $i<$ix; $i++)
-		{
-			$c = $num_format[$i];
-			if ($ignore_until=='' && $c=='[')
-				$ignore_until=']';
-			else if ($ignore_until=='' && $c=='"')
-				$ignore_until='"';
-			else if ($ignore_until==$c)
-				$ignore_until='';
-			if ($ignore_until=='' && ($c==' ' || $c=='-'  || $c=='('  || $c==')') && ($i==0 || $num_format[$i-1]!='_'))
-				$escaped.= "\\".$c;
-			else
-				$escaped.= $c;
-		}
-		return $escaped;
+		
+		return $num_format;
 	}
 	//------------------------------------------------------------------
 	public static function add_to_list_get_index(&$haystack, $needle)
