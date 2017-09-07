@@ -325,8 +325,8 @@ class XLSXWriter
 
 		if (!is_scalar($value) || $value==='') { //objects, array, empty
 			$file->write('<c r="'.$cell_name.'" s="'.$cell_style_idx.'"/>');
-		} elseif (is_string($value) && $value{0}=='='){
-			$file->write('<c r="'.$cell_name.'" s="'.$cell_style_idx.'" t="s"><f>'.self::xmlspecialchars($value).'</f></c>');
+		} elseif ($value instanceof XLSXWriter_Formula){
+			$file->write('<c r="'.$cell_name.'" s="'.$cell_style_idx.'" t="s"><f>'.self::xmlspecialchars($value->value).'</f></c>');
 		} elseif ($num_format_type=='n_date') {
 			$file->write('<c r="'.$cell_name.'" s="'.$cell_style_idx.'" t="n"><v>'.intval(self::convert_date_time($value)).'</v></c>');
 		} elseif ($num_format_type=='n_datetime') {
@@ -877,6 +877,9 @@ class XLSXWriter_BuffererWriter
 	}
 }
 
-
+class XLSXWriter_Formula
+{
+	public $value;
+}
 
 // vim: set filetype=php expandtab tabstop=4 shiftwidth=4 autoindent smartindent:
